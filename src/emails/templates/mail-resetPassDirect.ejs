@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mật khẩu tạm thời</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+
+    <div style="max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+        <h2 style="color: #007bff; border-bottom: 2px solid #007bff; padding-bottom: 10px;">Mật khẩu tạm thời</h2>
+
+        <p>Chào <%= payload.fullName %>,</p>
+
+        <p>Bạn (hoặc ai đó) đã yêu cầu đặt lại mật khẩu. Hệ thống đã tạo một <strong>mật khẩu tạm thời</strong> cho tài khoản của bạn.</p>
+
+        <p style="background:#f8f9fa;padding:12px;border-radius:6px; font-weight:bold; font-size:1.1em;">
+            Mật khẩu tạm thời: <span style="color:#dc3545"><%= payload.newPassword %></span>
+        </p>
+
+        <p>Vì lý do bảo mật, bạn nên đăng nhập và đổi lại mật khẩu ngay lập tức.</p>
+
+        <hr style="border: 0; border-top: 1px solid #eee; margin-top: 20px;">
+        <p style="font-size: 0.9em; color: #888;">Trân trọng,<br>Đội ngũ hỗ trợ My node 259</p>
+    </div>
+
+</body>
+</html>

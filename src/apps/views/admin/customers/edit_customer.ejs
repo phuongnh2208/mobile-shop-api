@@ -1,0 +1,117 @@
+<%-include("../layout/head")%>
+<%-include("../layout/header")%>
+<%-include("../layout/sidebar")%>
+
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb mt-3">
+            <li>
+                <a href="/admin">
+                    <svg class="glyph stroked home">
+                        <use xlink:href="#stroked-home"></use>
+                    </svg>
+                </a>
+            </li>
+            <li><a href="/admin/customers">Danh sách khách hàng</a></li>
+            <li class="active">Chỉnh sửa khách hàng</li>
+        </ol>
+    </div><!--/.row-->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Chỉnh sửa khách hàng</h1>
+        </div>
+    </div><!--/.row-->
+
+    <% if (error) { %>
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <%= error %>
+        </div>
+    <% } %>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Thông tin khách hàng</h3>
+                </div>
+                <div class="panel-body">
+                    <form action="/admin/customers/update/<%= customer._id %>" method="POST">
+                        
+                        <!-- Họ tên -->
+                        <div class="form-group">
+                            <label for="fullName">Họ và tên <span class="text-danger">*</span></label>
+                            <input type="text" name="fullName" id="fullName" class="form-control" 
+                                   value="<%= customer.fullName %>" required>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="email">Email <span class="text-danger">*</span></label>
+                            <input type="email" name="email" id="email" class="form-control" 
+                                   value="<%= customer.email %>" required>
+                        </div>
+
+                        <!-- Số điện thoại -->
+                        <div class="form-group">
+                            <label for="phone">Số điện thoại <span class="text-danger">*</span></label>
+                            <input type="text" name="phone" id="phone" class="form-control" 
+                                   value="<%= customer.phone %>" required>
+                        </div>
+
+                        <!-- Địa chỉ -->
+                        <div class="form-group">
+                            <label for="address">Địa chỉ <span class="text-danger">*</span></label>
+                            <textarea name="address" id="address" rows="3" class="form-control" required><%= customer.address %></textarea>
+                        </div>
+
+                        <!-- Vai trò -->
+                        <div class="form-group">
+                            <label for="role">Vai trò <span class="text-danger">*</span></label>
+                            <select name="role" id="role" class="form-control">
+                                <option value="customer" <%= customer.role === 'customer' ? 'selected' : '' %>>Khách hàng</option>
+                                <option value="admin" <%= customer.role === 'admin' ? 'selected' : '' %>>Admin</option>
+                            </select>
+                        </div>
+
+                        <hr>
+
+                        <!-- Nút lưu -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success">
+                                <i class="glyphicon glyphicon-floppy-disk"></i> Lưu thay đổi
+                            </button>
+                            <a href="/admin/customers/detail/<%= customer._id %>" class="btn btn-default">
+                                <i class="glyphicon glyphicon-arrow-left"></i> Quay lại
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Hướng dẫn</h3>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        <li>Các trường có dấu <span class="text-danger">*</span> là bắt buộc</li>
+                        <li>Email phải đúng định dạng và không trùng</li>
+                        <li>Số điện thoại không được trùng</li>
+                        <li>Vai trò Admin có quyền truy cập toàn bộ hệ thống</li>
+                        <li>Không thể thay đổi mật khẩu từ đây</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div><!--/.row-->
+</div><!--/.main-->
+
+<script src="/admin/js/jquery-1.11.1.min.js"></script>
+<script src="/admin/js/bootstrap.min.js"></script>
+<%-include("../layout/footer")%>

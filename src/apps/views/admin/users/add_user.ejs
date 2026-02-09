@@ -1,0 +1,113 @@
+<%-include("../layout/head")%>
+<%-include("../layout/header")%>
+<%-include("../layout/sidebar")%>
+
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb mt-3">
+            <li>
+                <a href="/admin">
+                    <svg class="glyph stroked home">
+                        <use xlink:href="#stroked-home"></use>
+                    </svg>
+                </a>
+            </li>
+            <li><a href="/admin/users">Danh sách thành viên</a></li>
+            <li class="active">Thêm thành viên</li>
+        </ol>
+    </div><!--/.row-->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Thêm thành viên</h1>
+        </div>
+    </div><!--/.row-->
+
+    <% if (error) { %>
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <%= error %>
+        </div>
+    <% } %>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Thông tin thành viên</h3>
+                </div>
+                <div class="panel-body">
+                    <form action="/admin/users/store" method="POST">
+                        
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="email">Email <span class="text-danger">*</span></label>
+                            <input type="email" name="email" id="email" class="form-control" 
+                                   placeholder="example@email.com" required>
+                        </div>
+
+                        <!-- Mật khẩu -->
+                        <div class="form-group">
+                            <label for="password">Mật khẩu <span class="text-danger">*</span></label>
+                            <input type="password" name="password" id="password" class="form-control" 
+                                   placeholder="Tối thiểu 6 ký tự" required>
+                            <small class="help-block">Mật khẩu phải có ít nhất 6 ký tự</small>
+                        </div>
+
+                        <!-- Xác nhận mật khẩu -->
+                        <div class="form-group">
+                            <label for="confirmPassword">Xác nhận mật khẩu <span class="text-danger">*</span></label>
+                            <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" 
+                                   placeholder="Nhập lại mật khẩu" required>
+                        </div>
+
+                        <!-- Vai trò -->
+                        <div class="form-group">
+                            <label for="role">Vai trò <span class="text-danger">*</span></label>
+                            <select name="role" id="role" class="form-control">
+                                <option value="member">Member</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+
+                        <hr>
+
+                        <!-- Nút lưu -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success">
+                                <i class="glyphicon glyphicon-floppy-disk"></i> Thêm thành viên
+                            </button>
+                            <a href="/admin/users" class="btn btn-default">
+                                <i class="glyphicon glyphicon-arrow-left"></i> Quay lại
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Hướng dẫn</h3>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        <li>Các trường có dấu <span class="text-danger">*</span> là bắt buộc</li>
+                        <li>Email phải đúng định dạng và không trùng</li>
+                        <li>Mật khẩu tối thiểu 6 ký tự</li>
+                        <li>Mật khẩu và xác nhận phải khớp nhau</li>
+                        <li>Admin có toàn quyền quản trị hệ thống</li>
+                        <li>Member chỉ có quyền hạn chế</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div><!--/.row-->
+</div><!--/.main-->
+
+<script src="/admin/js/jquery-1.11.1.min.js"></script>
+<script src="/admin/js/bootstrap.min.js"></script>
+<%-include("../layout/footer")%>

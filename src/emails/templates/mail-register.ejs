@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký tài khoản thành công</title>
+    <style>
+        body {
+            background-color: #f4f7f9;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .email-container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 90%;
+            padding: 30px 40px;
+            color: #333;
+        }
+        .email-container h2 {
+            color: #4CAF50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .email-container p {
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+        .email-container ul {
+            list-style: disc;
+            padding-left: 25px;
+        }
+        .email-container li {
+            margin-bottom: 8px;
+        }
+        .email-container hr {
+            border: 0;
+            border-top: 1px solid #eee;
+            margin: 25px 0;
+        }
+        .email-container .footer {
+            font-size: 12px;
+            color: #999;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <h2>Đăng ký thành công!</h2>
+        <p>Xin chào <strong><%= payload.fullName %></strong>,</p>
+        <p>Chúc mừng bạn đã đăng ký tài khoản thành công tại <strong>Vietpro Shop</strong>!</p>
+        <p>Thông tin tài khoản của bạn:</p>
+        <ul>
+            <li><strong>Họ và tên:</strong> <%= payload.fullName %></li>
+            <li><strong>Email:</strong> <%= payload.email %></li>
+            <% if (payload.phone) { %>
+            <li><strong>Số điện thoại:</strong> <%= payload.phone %></li>
+            <% } %>
+            <li><strong>Loại tài khoản:</strong> <%= payload.accountType %></li>
+        </ul>
+        <p>Bạn có thể đăng nhập vào hệ thống bằng địa chỉ email và mật khẩu đã đăng ký.</p>
+        <p>Trân trọng,<br>Đội ngũ Vietpro Shop</p>
+        <hr>
+        <p class="footer">Đây là email tự động, vui lòng không trả lời.</p>
+    </div>
+</body>
+</html>

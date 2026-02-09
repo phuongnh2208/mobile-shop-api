@@ -1,0 +1,158 @@
+<%-include("../layout/head")%>
+<%-include("../layout/header")%>
+<%-include("../layout/sidebar")%>
+
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb mt-3">
+            <li>
+                <a href="/admin">
+                    <svg class="glyph stroked home">
+                        <use xlink:href="#stroked-home"></use>
+                    </svg>
+                </a>
+            </li>
+            <li class="active">Danh sách bình luận</li>
+        </ol>
+    </div><!--/.row-->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Danh sách bình luận
+            </h1>
+        </div>
+    </div><!--/.row-->
+
+    <% if (success && typeof success === 'string' && success.trim().length > 0) { %>
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <%= success %>
+        </div>
+    <% } %>
+
+    <% if (error && typeof error === 'string' && error.trim().length > 0) { %>
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <%= error %>
+        </div>
+    <% } %>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="btn-group" role="group">
+                        <a href="/admin/comments" class="btn btn-default <%= currentStatus === 'all' ? 'active' : '' %>">
+                            Tất cả
+                        </a>
+                        <a href="/admin/comments?status=pending" class="btn btn-default <%= currentStatus === 'pending' ? 'active' : '' %>">
+                            Chờ duyệt
+                        </a>
+                        <a href="/admin/comments?status=approved" class="btn btn-default <%= currentStatus === 'approved' ? 'active' : '' %>">
+                            Đã duyệt
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table data-toolbar="#toolbar" data-toggle="table" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width:50px;">STT</th>
+                                <th style="width:150px;">Người bình luận</th>
+                                <th style="width:150px;">Email</th>
+                                <th style="width:200px;">Sản phẩm</th>
+                                <th style="width:300px;">Nội dung</th>
+                                <th style="width:100px;">Trạng thái</th>
+                                <th style="width:150px;">Ngày tạo</th>
+                                <th style="width:180px;">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (comments.length === 0) { %>
+                                <tr>
+                                    <td colspan="8" class="text-center">Không có bình luận nào</td>
+                                </tr>
+                            <% } else { %>
+                                <% comments.forEach((comment, index)=> { %>
+                                    <tr id="comment-<%= comment._id %>">
+                                        <td><%= (page - 1) * 10 + index + 1 %></td>
+                                        <td><%= comment.name || comment.full_name || 'N/A' %></td>
+                                        <td><%= comment.email %></td>
+                                        <td>
+                                            <div style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="<%= comment.product_id?.name || 'N/A' %>">
+                                                <%= comment.product_id?.name || 'N/A' %>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div style="max-width:300px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="<%= comment.displayContent || comment.content || comment.description || '' %>">
+                                                <%= comment.displayContent || comment.content || comment.description || '' %>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <% if (comment.status === 'pending') { %>
+                                                <span class="label label-warning">Chờ duyệt</span>
+                                            <% } else if (comment.status === 'approved' || comment.status === 'active') { %>
+                                                <span class="label label-success">Đã duyệt</span>
+                                            <% } else { %>
+                                                <span class="label label-default"><%= comment.status %></span>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <%= new Date(comment.createdAt).toLocaleDateString('vi-VN') %><br>
+                                            <small><%= new Date(comment.createdAt).toLocaleTimeString('vi-VN') %></small>
+                                        </td>
+                                        <td class="form-group">
+                                            <a href="/admin/comments/detail/<%= comment._id %>" class="btn btn-info btn-sm" title="Xem chi tiết">
+                                                <i class="glyphicon glyphicon-eye-open"></i>
+                                            </a>
+                                            <a href="/admin/comments/delete/<%= comment._id %>" class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Bạn có chắc muốn xóa bình luận này không?');" title="Xóa">
+                                                <i class="glyphicon glyphicon-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="panel-footer">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <!-- Nút Previous -->
+                            <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
+                                <a class="page-link" href="/admin/comments?page=<%= prev %><%= currentStatus !== 'all' ? '&status=' + currentStatus : '' %>">&laquo;</a>
+                            </li>
+                            <% for (let pageNumber of paginate) { %>
+                                <% if (pageNumber==="..." ) { %>
+                                    <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                                <% } else { %>
+                                    <li class="page-item <%= page === pageNumber ? 'active' : '' %>">
+                                        <a class="page-link" href="/admin/comments?page=<%= pageNumber %><%= currentStatus !== 'all' ? '&status=' + currentStatus : '' %>">
+                                            <%= pageNumber %>
+                                        </a>
+                                    </li>
+                                <% } %>
+                            <% } %>
+                            <!-- Nút Next -->
+                            <li class="page-item <%= page === totalPages ? 'disabled' : '' %>">
+                                <a class="page-link" href="/admin/comments?page=<%= next %><%= currentStatus !== 'all' ? '&status=' + currentStatus : '' %>">&raquo;</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div><!--/.row-->
+</div><!--/.main-->
+
+<script src="/admin/js/jquery-1.11.1.min.js"></script>
+<script src="/admin/js/bootstrap.min.js"></script>
+<script src="/admin/js/bootstrap-table.js"></script>
+<%-include("../layout/footer")%>

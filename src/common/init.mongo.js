@@ -5,6 +5,12 @@ module.exports = () => {
   // Explicitly setting it avoids the deprecation warning and makes behavior clear.
   mongoose.set('strictQuery', false);
   mongoose.set('bufferCommands', false);
+  // Avoid creating multiple connections in serverless environments by
+  // reusing the existing Mongoose connection when available.
+  if (mongoose.connection && mongoose.connection.readyState === 1) {
+    return mongoose;
+  }
+
   mongoose
     .connect(config.get("db.mongo.uri"), {
       useNewUrlParser: true,
@@ -14,8 +20,10 @@ module.exports = () => {
     })
     .then(() => console.log("MongoDB connected!"))
     .catch((err) => {
+      // Log error but do not terminate the process. In serverless environments
+      // calling process.exit will crash the function — prefer logging so the
+      // platform can surface the error and the function can fail gracefully.
       console.error("MongoDB connection error:", err);
-      process.exit(1);
     });
 
   mongoose.connection.on('error', err => {

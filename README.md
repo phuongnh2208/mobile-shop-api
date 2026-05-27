@@ -333,17 +333,6 @@ npm test
 | `npm test` | Chạy test suite |
 
 
-## Security Best Practices
-
-- Không commit file `.env` vào git
-- Sử dụng strong secrets cho JWT keys
-- Enable CORS chỉ cho trusted domains
-- Validate tất cả input với express-validator
-- Implement rate limiting
-- Use HTTPS trong production
-- Keep dependencies updated
-- Hash passwords với bcrypt
-- Sanitize user input
 
 ## Troubleshooting
 
@@ -398,7 +387,7 @@ npm rebuild bcrypt --build-from-source
 ## Liên hệ
 
 - GitHub: [@pulapily2208](https://github.com/pulapily2208)
-- Repository: [node-api-259](https://github.com/pulapily2208/node-api-259)
+- Repository: [node-api-259](https://github.com/pulapily2208/mobile-shop-api)
 
 ## Ghi chú
 
